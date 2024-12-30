@@ -1,0 +1,52 @@
+<!-- app/views/discs/show.html.erb -->
+<div class="container mx-auto py-8 px-4">
+  <h1 class="text-4xl font-bold mb-6 text-center text-gray-800"><%= @disc.title %></h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- Изображение обложки -->
+    <div class="flex justify-center">
+      <img
+        src="<%= @disc.cover_url || asset_path('img.png') %>"
+        alt="<%= @disc.title %>"
+        class="w-full max-w-md h-auto object-cover rounded-lg shadow-md">
+    </div>
+
+    <!-- Описание товара -->
+    <div>
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Информация о пластинке</h2>
+
+      <div class="mb-4">
+        <p><strong>Исполнитель:</strong> <%= @disc.artist.name %></p>
+        <p><strong>Страна:</strong> <%= @disc.country %></p>
+        <p><strong>Год выпуска:</strong> <%= @disc.released %></p>
+        <p><strong>Жанры:</strong> <%= @disc.genres.join(', ') %></p>
+        <p><strong>Стиль:</strong> <%= @disc.styles.join(', ') %></p>
+        <p><strong>Примечания:</strong> <%= @disc.notes %></p>
+        <p><strong>Состояние:</strong> <%= @disc.condition %></p>
+        <p><strong>Цена:</strong> <%= number_to_currency(@disc.price, unit: "₽") %></p>
+      </div>
+
+      <!-- Секция с треками -->
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Треки:</h3>
+      <% if @disc.tracks.any? %>
+        <ul class="space-y-2">
+          <% @disc.tracks.each_with_index do |track, index| %>
+            <li class="flex justify-between items-center text-gray-700">
+              <span><%= index + 1 %>. <%= track.title %></span>
+              <span class="text-sm text-gray-500"><%= track.duration %></span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-gray-500">Нет треков для этой пластинки.</p>
+      <% end %>
+
+      <!-- Кнопка возврата на витрину -->
+      <div class="mt-6">
+        <a href="<%= discs_path %>" class="text-center bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
+          Вернуться к витрине
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
