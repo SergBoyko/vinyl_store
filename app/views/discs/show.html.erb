@@ -1,14 +1,19 @@
-<!-- app/views/discs/show.html.erb -->
 <div class="container mx-auto py-8 px-4">
   <h1 class="text-4xl font-bold mb-6 text-center text-gray-800"><%= @disc.title %></h1>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
     <!-- Изображение обложки -->
-    <div class="flex justify-center">
+    <div class="flex flex-col items-center">
       <img
         src="<%= @disc.cover_url || asset_path('img.png') %>"
         alt="<%= @disc.title %>"
-        class="w-full max-w-md h-auto object-cover rounded-lg shadow-md">
+        class="w-full max-w-md h-auto max-h-96 object-cover rounded-lg shadow-md">
+
+      <!-- Информация о цене и состоянии -->
+      <div class="mt-4 text-center">
+        <p class="text-lg font-semibold text-gray-800">Цена: <span class="text-green-600"><%= number_to_currency(@disc.price, unit: "₽") %></span></p>
+        <p class="text-md text-gray-600">Состояние: <span class="font-medium"><%= @disc.condition %></span></p>
+      </div>
     </div>
 
     <!-- Описание товара -->
@@ -22,17 +27,15 @@
         <p><strong>Жанры:</strong> <%= @disc.genres.join(', ') %></p>
         <p><strong>Стиль:</strong> <%= @disc.styles.join(', ') %></p>
         <p><strong>Примечания:</strong> <%= @disc.notes %></p>
-        <p><strong>Состояние:</strong> <%= @disc.condition %></p>
-        <p><strong>Цена:</strong> <%= number_to_currency(@disc.price, unit: "₽") %></p>
       </div>
 
       <!-- Секция с треками -->
       <h3 class="text-lg font-semibold text-gray-800 mb-4">Треки:</h3>
       <% if @disc.tracks.any? %>
         <ul class="space-y-2">
-          <% @disc.tracks.each_with_index do |track, index| %>
+          <% @disc.tracks.order(:position).each do |track| %>
             <li class="flex justify-between items-center text-gray-700">
-              <span><%= index + 1 %>. <%= track.title %></span>
+              <span><%= track.position %>. <%= track.title %></span>
               <span class="text-sm text-gray-500"><%= track.duration %></span>
             </li>
           <% end %>

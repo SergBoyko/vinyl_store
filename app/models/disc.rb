@@ -6,12 +6,12 @@
 #  condition          :string
 #  country            :string
 #  cover_url          :string
-#  genres             :string           is an Array
+#  genres             :string           default([]), is an Array
 #  notes              :string
 #  price              :integer
 #  released           :string
 #  released_formatted :string
-#  styles             :string           is an Array
+#  styles             :string           default([]), is an Array
 #  title              :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
